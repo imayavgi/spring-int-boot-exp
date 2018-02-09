@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:integration="http://www.springframework.org/schema/integration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:stream="http://www.springframework.org/schema/integration/stream"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/integration
+    http://www.springframework.org/schema/integration/spring-integration.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/integration/stream
+	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <task:executor id="pooledThreadExecutor" pool-size="4" queue-capacity="4" rejection-policy="DISCARD"/>
+
+    <!--
+    <bean id="jamonPerformanceMonitorInterceptor" class="org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor" >
+        <property name="trackAllInvocations" value="true"></property>
+        <property name="useDynamicLogger" value="true"></property>
+    </bean>
+
+    <bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <idref bean="jamonPerformanceMonitorInterceptor"/>
+            </list>
+        </property>
+        <property name="beanNames">
+            <list>
+                <value>messageGenerator</value>
+                <value>messageProcessor</value>
+                <value>messageSplitter</value>
+                <value>messageAggregator</value>
+            </list>
+        </property>
+    </bean>
+    -->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <aop:aspectj-autoproxy/>
+    <bean id="jamonAspect" class="com.jamonapi.aop.spring.JamonAspect"  />
+    <aop:config>
+        <aop:pointcut id="jamonMonitoringPointcut" expression="bean(messageProcessor) || bean(messageAggregator) "/>
+        <aop:aspect id="jamonSpringAspect2" ref="jamonAspect">
+            <aop:around pointcut-ref="jamonMonitoringPointcut" method="monitor"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- Channel defs -->
+    <integration:channel id="channelOne"/>
+    <integration:channel id="channelThree"/>
+    <integration:channel id="channelFour"/>
+
+    <integration:channel id="queueChannel">
+        <integration:queue capacity="3"></integration:queue>
+    </integration:channel>
+
+    <!-- End Channel defs -->
+
+    <integration:inbound-channel-adapter ref="messageGenerator" method="getEventNames" channel="channelOne">
+        <integration:poller fixed-delay="4000">
+        </integration:poller>
+    </integration:inbound-channel-adapter>
+
+    <!--
+    <integration:splitter input-channel="channelOne" output-channel="queueChannel" />
+    <integration:aggregator input-channel="channelThree" output-channel="channelFour"/>
+    -->
+
+    <stream:stdout-channel-adapter id="stdout" channel="channelFour" append-newline="true" >
+    </stream:stdout-channel-adapter>
+
+
+</beans>
