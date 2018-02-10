@@ -25,7 +25,7 @@ public class MessageProcessor {
         LOGGER.info("On " + Thread.currentThread().getName() + " starting processMsg " + inmsg);
         try {
             //Thread.sleep(4000);
-            mpClient.doWork(10, TimeUnit.SECONDS);
+            mpClient.doWork(60, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {

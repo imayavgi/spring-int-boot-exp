@@ -12,7 +12,7 @@ import javax.annotation.PreDestroy;
 
 public class CuratorClientFactoryBean extends AbstractFactoryBean<CuratorFramework> {
 
-    private static final Log LOGGER = LogFactory.getLog(MessageProcessingClient.class);
+    private static final Log LOGGER = LogFactory.getLog(AbstractFactoryBean.class);
 
     private String connectionString;
 

@@ -18,8 +18,11 @@
  */
 package imaya.exper.svcs;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,6 +32,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class FakeLimitedResource implements LimitedResource {
+
+    private static final Log LOGGER = LogFactory.getLog(FakeLimitedResource.class);
+
     private final AtomicBoolean inUse = new AtomicBoolean(false);
 
     public void use() throws InterruptedException {
@@ -40,7 +46,8 @@ public class FakeLimitedResource implements LimitedResource {
 
         try {
             int randomNum = ThreadLocalRandom.current().nextInt(3, 4 + 1);
-            Thread.sleep((long) (3 * randomNum));
+            LOGGER.info(" DOING WORK THAT WILL TAKE " + 3 * randomNum  +"  sec");
+            Thread.sleep((long) (3000 * randomNum));
         } finally {
             inUse.set(false);
         }
