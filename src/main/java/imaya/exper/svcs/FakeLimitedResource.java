@@ -20,6 +20,7 @@ package imaya.exper.svcs;
 
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -38,7 +39,8 @@ public class FakeLimitedResource implements LimitedResource {
         }
 
         try {
-            Thread.sleep((long) (3 * Math.random()));
+            int randomNum = ThreadLocalRandom.current().nextInt(3, 4 + 1);
+            Thread.sleep((long) (3 * randomNum));
         } finally {
             inUse.set(false);
         }

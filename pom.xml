@@ -51,12 +51,12 @@
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
         </dependency>
-        <!--
+
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-jmx</artifactId>
         </dependency>
-        -->
+
         <!-- https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper -->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>

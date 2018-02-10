@@ -44,6 +44,7 @@ public class MessageProcessingClient {
 
     private InterProcessMutex lock;
 
+    @Autowired
     private CuratorFramework client;
 
     String lockPath = "/examples/locks";
@@ -56,9 +57,9 @@ public class MessageProcessingClient {
     @PostConstruct
     public void init() {
 
-        client = CuratorFrameworkFactory.newClient("127.0.0.1", new ExponentialBackoffRetry(1000, 3));
-        client.start();
-        LOGGER.info("On " + Thread.currentThread().getName() + " Zookeeper client started ");
+        //client = CuratorFrameworkFactory.newClient("127.0.0.1", new ExponentialBackoffRetry(1000, 3));
+        //client.start();
+        LOGGER.info("On " + Thread.currentThread().getName() + " Zookeeper client assigned to worker ");
 
         clientName = "CLIENT_" + Thread.currentThread().getName();
         lock = new InterProcessMutex(client, lockPath);
