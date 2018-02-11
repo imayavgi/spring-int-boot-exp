@@ -74,7 +74,7 @@
     <!-- End Channel defs -->
 
     <integration:inbound-channel-adapter ref="messageGenerator" method="getEventNames" channel="channelOne">
-        <integration:poller fixed-delay="4000">
+        <integration:poller fixed-delay="4000" max-messages-per-poll="1"  >
         </integration:poller>
     </integration:inbound-channel-adapter>
 

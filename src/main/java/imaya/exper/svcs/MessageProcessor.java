@@ -19,7 +19,9 @@ public class MessageProcessor {
     @Autowired
     private MessageProcessingClient mpClient;
 
-    @ServiceActivator(inputChannel = "queueChannel", poller = @Poller(fixedDelay = "10", maxMessagesPerPoll = "1", taskExecutor = "pooledThreadExecutor"), outputChannel = "channelThree")
+    @ServiceActivator(inputChannel = "queueChannel",
+            poller = @Poller(fixedDelay = "10", maxMessagesPerPoll = "1", taskExecutor = "pooledThreadExecutor"),
+            outputChannel = "channelThree")
     public int processMsg(String inmsg) {
 
         LOGGER.info("On " + Thread.currentThread().getName() + " starting processMsg " + inmsg);
