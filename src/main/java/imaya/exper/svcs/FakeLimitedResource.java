@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Simulates some external resource that can only be access by one process at a time
  */
 
-@Service
+//@Service
 public class FakeLimitedResource implements LimitedResource {
 
     private static final Log LOGGER = LogFactory.getLog(FakeLimitedResource.class);
@@ -47,7 +47,8 @@ public class FakeLimitedResource implements LimitedResource {
         try {
             int randomNum = ThreadLocalRandom.current().nextInt(3, 4 + 1);
             LOGGER.info(" DOING WORK THAT WILL TAKE " + 3 * randomNum  +"  sec");
-            Thread.sleep((long) (3000 * randomNum));
+            //Thread.sleep((long) (3000 * randomNum));
+            Thread.sleep((long) (15000));
         } finally {
             inUse.set(false);
         }

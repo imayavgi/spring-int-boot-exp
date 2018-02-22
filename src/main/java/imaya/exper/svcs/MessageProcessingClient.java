@@ -36,8 +36,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
-@Service
-@Scope(value="thread", proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Service
+//@Scope(value="thread", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MessageProcessingClient {
 
     private static final Log LOGGER = LogFactory.getLog(MessageProcessingClient.class);

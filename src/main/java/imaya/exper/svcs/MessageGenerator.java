@@ -18,7 +18,8 @@ public class MessageGenerator {
     public List<String> getEventNames() {
 
         LOGGER.info("On " + Thread.currentThread().getName() + " getEventNames");
-        //return Arrays.asList("First Event","Second Event","Third Event", "Fourth Event", "Fifth Event");
-        return null;
+        //return Arrays.asList("MESSAGE ONE", "MESSAGE TWO", "MESSAGE THREE", "MESSAGE FOUR", "MESSAGE FIVE");
+        return Arrays.asList("MESSAGE ONE", "MESSAGE TWO", "MESSAGE THREE");
+        //return null;
     }
 }

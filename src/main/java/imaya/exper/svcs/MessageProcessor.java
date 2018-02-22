@@ -16,18 +16,18 @@ public class MessageProcessor {
 
     private static final Log LOGGER = LogFactory.getLog(MessageProcessor.class);
 
-    @Autowired
-    private MessageProcessingClient mpClient;
+    //@Autowired
+    //private MessageProcessingClient mpClient;
 
     @ServiceActivator(inputChannel = "queueChannel",
-            poller = @Poller(fixedDelay = "10", maxMessagesPerPoll = "1", taskExecutor = "pooledThreadExecutor"),
+            poller = @Poller(fixedDelay = "1000", maxMessagesPerPoll = "1", taskExecutor = "pooledThreadExecutor"),
             outputChannel = "channelThree")
     public int processMsg(String inmsg) {
 
         LOGGER.info("On " + Thread.currentThread().getName() + " starting processMsg " + inmsg);
         try {
-            //Thread.sleep(4000);
-            mpClient.doWork(60, TimeUnit.SECONDS);
+            Thread.sleep(4000);
+            //mpClient.doWork(60, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {

@@ -11,7 +11,7 @@ import java.util.List;
 @MessageEndpoint
 public class MessageSplitter {
 
-    private static final Log LOGGER = LogFactory.getLog(MessageAggregator.class);
+    private static final Log LOGGER = LogFactory.getLog(MessageSplitter.class);
 
     @Splitter(inputChannel = "channelOne", outputChannel = "queueChannel")
     public List<String> splitMessage(List<String>  val /*String val*/) {

@@ -19,7 +19,7 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <task:executor id="pooledThreadExecutor" pool-size="4" queue-capacity="4" rejection-policy="DISCARD"/>
+    <task:executor id="pooledThreadExecutor" pool-size="2" queue-capacity="10" rejection-policy="CALLER_RUNS"/>
 
     <!--
     <bean id="jamonPerformanceMonitorInterceptor" class="org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor" >
@@ -52,7 +52,7 @@
             </map>
         </property>
     </bean>
-
+    <!--
     <aop:aspectj-autoproxy/>
     <bean id="jamonAspect" class="com.jamonapi.aop.spring.JamonAspect"  />
     <aop:config>
@@ -61,7 +61,7 @@
             <aop:around pointcut-ref="jamonMonitoringPointcut" method="monitor"/>
         </aop:aspect>
     </aop:config>
-
+    -->
     <!-- Channel defs -->
     <integration:channel id="channelOne"/>
     <integration:channel id="channelThree"/>
@@ -74,7 +74,7 @@
     <!-- End Channel defs -->
 
     <integration:inbound-channel-adapter ref="messageGenerator" method="getEventNames" channel="channelOne">
-        <integration:poller fixed-delay="4000" max-messages-per-poll="1"  >
+        <integration:poller fixed-delay="1800000" max-messages-per-poll="1" receive-timeout="5000" >
         </integration:poller>
     </integration:inbound-channel-adapter>
 
